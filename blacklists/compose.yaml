@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  blacklists-misp:
+    image: blacklists-misp:latest
+    restart: unless-stopped
+    ports:
+      # Host Port : Container Port
+      - 8000:80

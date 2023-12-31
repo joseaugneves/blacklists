@@ -1,0 +1,8 @@
+fastapi
+pydantic
+uvicorn
+requests
+#enum
+datetime
+ipaddress
+pymisp

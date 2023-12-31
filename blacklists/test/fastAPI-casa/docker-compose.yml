@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  myapp:
+    container_name: ${APPNAME}
+    image: ${IMAGENAME}:${IMAGETAG}
+    ports: 
+      - "${PUBLICPORT}:${PRIVATEPORT}"
+
+networks:
+    blacklist:
+        driver: "host"    
+
+  
