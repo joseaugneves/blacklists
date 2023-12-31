@@ -6,3 +6,6 @@ services:
     ports:
       # Host Port : Container Port
       - 8000:80
+     volumes:
+      - ./data:/app/data
+      

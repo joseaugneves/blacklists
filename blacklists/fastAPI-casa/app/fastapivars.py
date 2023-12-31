@@ -3,7 +3,7 @@ import json
 
 class fastapi_vars:
     
-    file='datavar'
+    file='./data/datavar'
     me={}   # {'varname':value,'varname':value,....}
 
     def read_dict_f(filen):

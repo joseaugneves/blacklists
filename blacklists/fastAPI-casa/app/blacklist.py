@@ -25,20 +25,21 @@ db={
     #'censys2':'https://support.censys.io/hc/en-us/articles/360043177092-from-faq',
     'censys':'https://support.censys.io/hc/en-us/article_attachments/20618695168532',
     'honeypot':'https://www.projecthoneypot.org/list_of_ips.php',
-    'maxmindfraud':'https://www.maxmind.com/en/high-risk-ip-sample-list'
+    'maxmindfraud':'https://www.maxmind.com/en/high-risk-ip-sample-list',
+    'serpro':'https://s3.i02.estaleiro.serpro.gov.br/blocklist/blocklist.txt'
 }
 
 def getdb():
     global db
     try:
-        db=read_dict_f('data')
+        db=read_dict_f('/app/data/data')
     except:
         print("notting to read")
     return(db)
 
 def putdb(dic):
     db.update(dic['dictionary'])
-    write_dict_f(db,"data")
+    write_dict_f(db,"/app/data/data")
 
 def validate_ip_network(address):
     try:

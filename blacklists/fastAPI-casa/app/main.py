@@ -169,6 +169,20 @@ def readdict(request:Request):
     print(f"pid: {os.getpid()}")
     return (black.getdb())
 
+@app.get("/backup_blacklists",summary="backup all blacklists")
+def  backup():
+    vars=fastapi_vars
+    lists=black.getdb()
+    vars.addvar('blists',lists)
+    return ("blacklists backupted")
+    
+@app.get("/restore_blacklists",summary="restore all blacklists")
+def  restore():
+     vars=fastapi_vars
+     lists=vars.getvar('blists')
+     black.db=lists
+     return ("blacklists restored")
+
 @app.post("/addtoblacklist",summary="add items to the list")
 def add_black(di:JsonFormatD,request:Request):
     client_host = request.client.host
