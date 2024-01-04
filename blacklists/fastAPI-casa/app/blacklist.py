@@ -140,7 +140,7 @@ def write_list_to_file(file_path, a_list):
 
 def misp(days: int):
         # URL of the MISP instance
-    misp_url = 'https://172.168.50.5'
+    misp_url = 'https://172.168.150.15'
 
     # Authentication key for the MISP instance
     misp_key = 'P8l0nvmVridvFDp2e3fJJVaNPMYRnsEJbFRBps6n'
