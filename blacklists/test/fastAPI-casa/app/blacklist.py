@@ -148,7 +148,7 @@ def misp(days: int):
     # Fetch all events from the MISP instance
     #events = misp.search(return_format='json',type_attribute='ip-src',date_from='2020-01-01')
     print ("init date:",get_date_n_days_ago(days))
-    events = misp.search(return_format='json',type_attribute='url',date_from=f'{get_date_n_days_ago(days)}')
+    events = misp.search(return_format='json',type_attribute=['ip-dst','ip-src','url'],date_from=f'{get_date_n_days_ago(days)}')
     # Loop through each event and display all IP artifacts
     #print (type(events))
     #pprint.pprint (events)
