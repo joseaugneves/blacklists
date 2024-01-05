@@ -104,7 +104,7 @@ def detectipv6(data):
     return control,ips
 
 def parceip(data):
-
+    stat=[]
     ips=[]
     for f in data :
         response = requests.get(f)
@@ -112,12 +112,16 @@ def parceip(data):
         dat = response.text
         da=dat.split(' ')
         da=list(set(da))
+        dat4=0
+        dat6=0
         for e in da :
             rep,ip=detectipv6 (e)
             if rep >0:ips.append (ip)
             rep,ip=detectipv4 (e)
-            if rep >0:ips.append (ip)
-    return ips
+            if rep >0: ips.append (ip)
+        stat.append(f"{f}:{len(ips)}")
+        print ("----------",stat)
+    return stat,ips
 
 def get_date_n_days_ago(n: int):
     today = datetime.date.today()

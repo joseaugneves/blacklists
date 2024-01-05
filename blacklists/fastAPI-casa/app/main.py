@@ -65,7 +65,6 @@ def init_data():
     vars=fastapi_vars
     vars.addvar('log',loggd)
 
-
 @app.get("/log",summary="see log iteractions")
 def log() :
     vars=fastapi_vars
@@ -78,7 +77,10 @@ def log() :
 def get_attackers(days: int,request: Request):
     client_host = request.client.host
     logge(f'misp/{days}',client_host)
-    return (black.misp(days))
+    misp=black.misp(days)
+    sta=misp.count('\n')
+    logge("statistics",f"misp:{sta}")
+    return (misp)
 
 @app.get("/allbacklist_text/{days}",summary="generate all list contents in fw format with misp",description=" see lists on allblackllist_dict",response_class=PlainTextResponse)
 def read_allblack_text(days:int,request: Request,choice: ops):
@@ -87,12 +89,14 @@ def read_allblack_text(days:int,request: Request,choice: ops):
     black.getdb()
     print(black.db.values())
     urllist=list(black.db.values())
-    ips=black.parceip(urllist)
+    sta,ips=black.parceip(urllist)
     flatt= [item for sublist in ips for item in sublist]
     #ips = "\n\n".join(flattened)
     ipsrct=list(set(flatt))
     data2="\r\n".join(ipsrct)
     data3=black.misp(days)
+    stm=data3.count('\n')
+    sta.append(f"misp:{stm}")
     #data3=""
     dat=data2+"\r\n"+data3
     print (choice.value,type(choice),"\r\n"+dat)
@@ -102,7 +106,9 @@ def read_allblack_text(days:int,request: Request,choice: ops):
     if choice.value.__contains__ ('ipv4') :
         print ("only ipv4")
         dat=parce(dat,'ipv4')
-    if choice.value.__contains__ ('all'): print ("do not exclude (dispay all)")   
+    if choice.value.__contains__ ('all'): print ("do not exclude (dispay all)") 
+    print ("---statistics ----",sta)  
+    logge("statistics",sta)
     return (dat)
     
 
@@ -113,9 +119,10 @@ def read_allblack(request: Request):
     black.getdb()
     print(black.db.values())
     urllist=list(black.db.values())
-    ips=black.parceip(urllist)
+    sta,ips=black.parceip(urllist)
     flatt= [item for sublist in ips for item in sublist]
     #ips = "\n\n".join(flattened)
+    logge("statistics",sta)
     return (urllist,flatt)
 
 @app.post("/db-blacklist/{listname}",summary="retrive individual list")
@@ -129,8 +136,9 @@ def read_dbblack(listname,request:Request): #choice2: TestQuery):
      print ("getting site:",site)
      sitel=[]
      sitel.append(site)
-     ips=black.parceip(sitel)
+     sta,ips=black.parceip(sitel)
      flatt = [item for sublist in ips for item in sublist]
+     logge("statistics",sta)
      return (site,flatt)
 
 
@@ -145,10 +153,11 @@ def read_dbblackt(listname,request:Request): #choice2: TestQuery):
      print ("getting site:",site)
      sitel=[]
      sitel.append(site)
-     ips=black.parceip(sitel)
+     sta,ips=black.parceip(sitel)
      flatt = [item for sublist in ips for item in sublist]
      flatt=list(set(flatt))
      data2="\r\n".join(flatt)
+     logge("statistics",sta)
      return (data2)
 
 
@@ -157,8 +166,9 @@ def read_black(js: JsonFormatG,request:Request):
      client_host = request.client.host
      logge('urlblacklist',client_host)
      site= js['urllist']
-     ips=black.parceip(site)
+     sta,ips=black.parceip(site)
      flatt = [item for sublist in ips for item in sublist]
+     logge("statistics",sta)
      return (flatt)
 
 import os
